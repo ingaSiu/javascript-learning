@@ -1,0 +1,91 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+:root {
+  --cell-size: 100px;
+  --mark-size: cal(var(--cell-size) * 0.9);
+}
+
+body {
+  margin: 0;
+}
+
+.board {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  align-items: center;
+  grid-template-columns: repeat(3, auto);
+}
+
+.cell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+
+  border: 1px solid blueviolet;
+}
+
+/** Remove exterior cell lines */
+
+/** Explanation of nth:child
+
+** Syntax: 
+
+** nth:child(an + b) {}
+
+a is the cycle size, meaning it selects elements based on a repeating pattern.
+n is the counter that starts at 0 and increments for each subsequent child element.
+b is an offset, specifying where the pattern should begin.
+
+you can think of a as a multiplier for n 
+
+When a is 1, the pattern repeats every n elements, selecting every element in the sequence.
+When a is 2, the pattern repeats every 2n elements, selecting every other element.
+When a is 3, the pattern repeats every 3n elements, selecting every third element, and so on.
+
+-n means it counts backward from the offset (b).
+
+*/
+
+/* Select the first three children 
+	In this case,
+	(-n + 3) means it counts backwards from the 3rd element
+*/
+
+.cell:nth-child(-n + 3) {
+  border-top: none;
+}
+
+/* Select every third element starting from the first one (0-based index) */
+
+.cell:nth-child(3n + 1) {
+  border-left: none;
+}
+
+/* Select every third element starting from the third one (0-based index) */
+
+.cell:nth-child(3n + 3) {
+  border-right: none;
+}
+
+/** Explanation of :nth-last-child()
+:nth-last-child selects elements based on their position relative to the end of the parent element.
+
+-n+3 is the formula used to select the last three children:
+-n means it counts backward from the last child element.
++3 specifies that it should select up to the third child from the end.
+Kinda like "what amount of backwards should i go?"
+
+*/
+
+/* Select the last three children */
+
+.cell:nth-last-child(-n + 3) {
+  border-bottom: none;
+}
