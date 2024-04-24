@@ -3,7 +3,25 @@ let clicked = null;
 let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) : [];
 
 const calendar = document.getElementById('calendar');
+const newEventModal = document.getElementById('newEventModal');
+const backDrop = document.getElementById('modalBackDrop');
+const eventTitleInput = document.getElementById('eventTitleInput');
 const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+function openModal(date) {
+  clicked = date;
+
+  // find an event existing on selected day
+  const eventForDay = events.find((e) => e.date === clicked);
+
+  if (eventForDay) {
+    console.log('Event already exists');
+  } else {
+    newEventModal.style.display = 'block';
+  }
+
+  backDrop.style.display = 'block';
+}
 
 function load() {
   const date = new Date();
@@ -44,7 +62,7 @@ function load() {
     if (i > paddingDays) {
       daySquare.innerText = i - paddingDays;
 
-      daySquare.addEventListener('click', () => console.log('click'));
+      daySquare.addEventListener('click', () => openModal(`${month + 1}/${i - paddingDays}/${year}`));
     } else {
       daySquare.classList.add('padding');
     }
@@ -53,6 +71,30 @@ function load() {
   }
 
   console.log(paddingDays);
+}
+
+function closeModal() {
+  eventTitleInput.classList.remove('error');
+  newEventModal.style.display = 'none';
+  backDrop.style.display = 'none';
+  eventTitleInput.value = '';
+  clicked = null;
+  load();
+}
+
+function saveEvent() {
+  if (eventTitleInput.value) {
+    eventTitleInput.classList.remove('error');
+    events.push({
+      date: clicked,
+      title: eventTitleInput.value,
+    });
+
+    localStorage.setItem('events', JSON.stringify(events));
+    closeModal();
+  } else {
+    eventTitleInput.classList.add('error');
+  }
 }
 
 function initButtons() {
@@ -65,6 +107,10 @@ function initButtons() {
     nav--;
     load();
   });
+
+  document.getElementById('saveButton').addEventListener('click', saveEvent);
+
+  document.getElementById('cancelButton').addEventListener('click', closeModal);
 }
 
 initButtons();
