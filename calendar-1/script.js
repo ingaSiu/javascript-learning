@@ -8,6 +8,10 @@ const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satur
 function load() {
   const date = new Date();
 
+  if (nav !== 0) {
+    date.setMonth(new Date().getMonth() + nav);
+  }
+
   const day = date.getDate();
   const month = date.getMonth();
   const year = date.getFullYear();
@@ -29,6 +33,10 @@ function load() {
 
   const paddingDays = firstDayOfWeekIndex === 0 ? 6 : firstDayOfWeekIndex - 1;
 
+  document.getElementById('monthDisplay').innerText = `${date.toLocaleDateString('en-lt', { month: 'long' })} ${year}`;
+
+  calendar.innerHTML = '';
+
   for (let i = 1; i <= paddingDays + daysInMonth; i++) {
     const daySquare = document.createElement('div');
     daySquare.classList.add('day');
@@ -47,4 +55,17 @@ function load() {
   console.log(paddingDays);
 }
 
+function initButtons() {
+  document.getElementById('nextButton').addEventListener('click', () => {
+    nav++;
+    load();
+  });
+
+  document.getElementById('backButton').addEventListener('click', () => {
+    nav--;
+    load();
+  });
+}
+
+initButtons();
 load();
