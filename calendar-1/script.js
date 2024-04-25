@@ -6,7 +6,7 @@ const calendar = document.getElementById('calendar');
 const newEventModal = document.getElementById('newEventModal');
 const backDrop = document.getElementById('modalBackDrop');
 const eventTitleInput = document.getElementById('eventTitleInput');
-const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const weekdays = [, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 function openModal(date) {
   clicked = date;
@@ -47,7 +47,7 @@ function load() {
   //   month: 'numeric',
   //   day: 'numeric',
   // });
-  //const paddingDays = weekdays.indexOf(dateString.split(', ')[0]);
+  // const paddingDays = weekdays.indexOf(dateString.split(', ')[0]);
 
   const paddingDays = firstDayOfWeekIndex === 0 ? 6 : firstDayOfWeekIndex - 1;
 
@@ -59,10 +59,21 @@ function load() {
     const daySquare = document.createElement('div');
     daySquare.classList.add('day');
 
+    const dayString = `${month + 1}/${i - paddingDays}/${year}`;
+
     if (i > paddingDays) {
       daySquare.innerText = i - paddingDays;
 
-      daySquare.addEventListener('click', () => openModal(`${month + 1}/${i - paddingDays}/${year}`));
+      const eventForDay = events.find((e) => e.date === dayString);
+
+      if (eventForDay) {
+        const eventDiv = document.createElement('div');
+        eventDiv.classList.add('event');
+        eventDiv.innerText = eventForDay.title;
+        daySquare.appendChild(eventDiv);
+      }
+
+      daySquare.addEventListener('click', () => openModal(dayString));
     } else {
       daySquare.classList.add('padding');
     }
