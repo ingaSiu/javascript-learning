@@ -58,8 +58,12 @@ function initCalendar() {
     if (i === new Date().getDate() && year === new Date().getFullYear() && month === new Date().getMonth()) {
       days += `<div class = "day today">${i}</div> `;
     } else {
-      days += `<div class = "day">${i}</div> `;
+      days += `<div class = "day">${i}</div>`;
     }
+  }
+
+  for (let j = 1; j <= nextDays; j++) {
+    days += `<div class = "day">${j}</div>`;
   }
   daysContainer.innerHTML = days;
 }
