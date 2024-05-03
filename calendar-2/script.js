@@ -10,12 +10,12 @@ const calendar = document.querySelector('.calendar'),
   eventDate = document.querySelector('.event-date'),
   eventsContainer = document.querySelector('.events'),
   addEventBtn = document.querySelector('.add-event'),
-  addEventWrapper = document.querySelector('.add-event-wrapper '),
-  addEventCloseBtn = document.querySelector('.close '),
-  addEventTitle = document.querySelector('.event-name '),
-  addEventFrom = document.querySelector('.event-time-from '),
-  addEventTo = document.querySelector('.event-time-to '),
-  addEventSubmit = document.querySelector('.add-event-btn ');
+  addEventWrapper = document.querySelector('.add-event-wrapper'),
+  addEventCloseBtn = document.querySelector('.close'),
+  addEventTitle = document.querySelector('.event-name'),
+  addEventFrom = document.querySelector('.event-time-from'),
+  addEventTo = document.querySelector('.event-time-to'),
+  addEventSubmit = document.querySelector('.add-event-btn');
 
 let today = new Date();
 let activeDay;
@@ -37,6 +37,24 @@ const months = [
   'December',
 ];
 
+const eventsArr = [
+  {
+    day: 13,
+    month: 0o5,
+    year: 2024,
+    events: [
+      {
+        title: 'Event 1 lorem ipsun dolar sit genfa tersd dsad ',
+        time: '10:00 AM',
+      },
+      {
+        title: 'Event 2',
+        time: '11:00 AM',
+      },
+    ],
+  },
+];
+
 function initCalendar() {
   const firstDay = new Date(year, month, 1);
   const lastDay = new Date(year, month + 1, 0);
@@ -55,15 +73,33 @@ function initCalendar() {
   }
 
   for (let i = 1; i <= lastDate; i++) {
+    //check if event is present on current day
     let event = false;
 
+    eventsArr.forEach((eventObj) => {
+      if (eventObj.day === i && eventObj.month === month + 1 && eventObj.year === year) {
+        // if event was found
+        event = true;
+      }
+    });
+    // if day is toay, add class today
     if (i === new Date().getDate() && year === new Date().getFullYear() && month === new Date().getMonth()) {
-      days += `<div class = "day today">${i}</div> `;
+      if (event) {
+        days += `<div class = "day today event">${i}</div> `;
+      } else {
+        days += `<div class = "day today">${i}</div> `;
+      }
+
+      // add remaining as it is
     } else {
-      days += `<div class = "day">${i}</div>`;
+      if (event) {
+        days += `<div class = "day event">${i}</div>`;
+      } else {
+        days += `<div class = "day">${i}</div>`;
+      }
     }
   }
-
+  // next month days
   for (let j = 1; j <= nextDays; j++) {
     days += `<div class = "day next-date">${j}</div>`;
   }
