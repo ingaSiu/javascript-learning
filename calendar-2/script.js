@@ -55,6 +55,8 @@ function initCalendar() {
   }
 
   for (let i = 1; i <= lastDate; i++) {
+    let event = false;
+
     if (i === new Date().getDate() && year === new Date().getFullYear() && month === new Date().getMonth()) {
       days += `<div class = "day today">${i}</div> `;
     } else {
@@ -137,3 +139,51 @@ function gotoDate() {
   // if date is invalid
   alert('Invalid date');
 }
+
+addEventBtn.addEventListener('click', () => {
+  addEventWrapper.classList.toggle('active');
+});
+
+addEventCloseBtn.addEventListener('click', () => {
+  addEventWrapper.classList.remove('active');
+});
+
+document.addEventListener('click', (e) => {
+  //if click is outside
+  if (e.target !== addEventBtn && !addEventWrapper.contains(e.target)) {
+    addEventWrapper.classList.remove('active');
+  }
+});
+
+// allow only 50 chars in title
+addEventTitle.addEventListener('input', (e) => {
+  addEventTitle.value = addEventTitle.value.slice(0, 50);
+});
+
+//time format in from and to time
+
+addEventFrom.addEventListener('input', (e) => {
+  // remove anything else numbers
+  addEventFrom.value = addEventFrom.value.replace(/[^0-9:]/g, '');
+  // if two numbers entered, add :
+  if (addEventFrom.value.length === 2) {
+    addEventFrom.value += ':';
+  }
+  // dont let user enter more than 5 chars
+  if (addEventFrom.value.length > 5) {
+    addEventFrom.value = addEventFrom.value.slice(0, 5);
+  }
+});
+
+addEventTo.addEventListener('input', (e) => {
+  // remove anything else numbers
+  addEventTo.value = addEventTo.value.replace(/[^0-9:]/g, '');
+  // if two numbers entered, add :
+  if (addEventTo.value.length === 2) {
+    addEventTo.value += ':';
+  }
+  // dont let user enter more than 5 chars
+  if (addEventTo.value.length > 5) {
+    addEventTo.value = addEventTo.value.slice(0, 5);
+  }
+});
