@@ -104,6 +104,10 @@ function initCalendar() {
     days += `<div class = "day next-date">${j}</div>`;
   }
   daysContainer.innerHTML = days;
+
+  // add listener after calendar is initialized
+
+  addListener();
 }
 
 initCalendar();
@@ -223,3 +227,45 @@ addEventTo.addEventListener('input', (e) => {
     addEventTo.value = addEventTo.value.slice(0, 5);
   }
 });
+
+function addListener() {
+  const days = document.querySelectorAll('.day');
+  days.forEach((day) => {
+    day.addEventListener('click', (e) => {
+      getActiveDay(e.target.innerHTML);
+      updateEvents(Number(e.target.innerHTML));
+      activeDay = Number(e.target.innerHTML);
+      //remove active
+      days.forEach((day) => {
+        day.classList.remove('active');
+      });
+      //if clicked prev-date or next-date switch to that month
+      if (e.target.classList.contains('prev-date')) {
+        prevMonth();
+        //add active to clicked day afte month is change
+        setTimeout(() => {
+          //add active where no prev-date or next-date
+          const days = document.querySelectorAll('.day');
+          days.forEach((day) => {
+            if (!day.classList.contains('prev-date') && day.innerHTML === e.target.innerHTML) {
+              day.classList.add('active');
+            }
+          });
+        }, 100);
+      } else if (e.target.classList.contains('next-date')) {
+        nextMonth();
+        //add active to clicked day afte month is changed
+        setTimeout(() => {
+          const days = document.querySelectorAll('.day');
+          days.forEach((day) => {
+            if (!day.classList.contains('next-date') && day.innerHTML === e.target.innerHTML) {
+              day.classList.add('active');
+            }
+          });
+        }, 100);
+      } else {
+        e.target.classList.add('active');
+      }
+    });
+  });
+}
