@@ -84,10 +84,13 @@ function initCalendar() {
     });
     // if day is toay, add class today
     if (i === new Date().getDate() && year === new Date().getFullYear() && month === new Date().getMonth()) {
+      activeDay = i;
+      getActiveDay(i);
+
       if (event) {
-        days += `<div class = "day today event">${i}</div> `;
+        days += `<div class = "day today active event">${i}</div> `;
       } else {
-        days += `<div class = "day today">${i}</div> `;
+        days += `<div class = "day today active">${i}</div> `;
       }
 
       // add remaining as it is
@@ -268,4 +271,11 @@ function addListener() {
       }
     });
   });
+}
+
+function getActiveDay(date) {
+  const day = new Date(year, month, date);
+  const dayName = day.toString().split(' ')[0];
+  eventDay.innerHTML = dayName;
+  eventDate.innerHTML = date + ' ' + months[month] + ' ' + year;
 }
