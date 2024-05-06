@@ -428,3 +428,17 @@ function convertTime(time) {
   time = timeHour + ':' + timeMin + ' ' + timeFormat;
   return time;
 }
+
+//function to save events in local storage
+function saveEvents() {
+  localStorage.setItem('events', JSON.stringify(eventsArr));
+}
+
+//function to get events from local storage
+function getEvents() {
+  //check if events are already saved in local storage then return event else nothing
+  if (localStorage.getItem('events') === null) {
+    return;
+  }
+  eventsArr.push(...JSON.parse(localStorage.getItem('events')));
+}
