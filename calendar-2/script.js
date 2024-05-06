@@ -176,7 +176,7 @@ function gotoDate() {
 
   if (dateArr.length === 2) {
     //date validation
-    if (dateArr[0] > 0 && dateArr[0] < 13 && dateArr[1].length === 4) {
+    if (dateArr[0] >= 1 && dateArr[0] <= 12 && dateArr[1].length === 4) {
       month = dateArr[0] - 1;
       year = dateArr[1];
       initCalendar();
@@ -330,10 +330,10 @@ addEventSubmit.addEventListener('click', () => {
   if (
     timeFromArr.length !== 2 ||
     timeToArr.length !== 2 ||
-    timeFromArr[0] > 23 ||
-    timeFromArr[1] > 59 ||
-    timeToArr[0] > 23 ||
-    timeToArr[1] > 59
+    parseInt(timeFromArr[0]) > 23 ||
+    parseInt(timeFromArr[1]) > 59 ||
+    parseInt(timeToArr[0]) > 23 ||
+    parseInt(timeToArr[1]) > 59
   ) {
     alert('Invalid Time Format');
     return;
