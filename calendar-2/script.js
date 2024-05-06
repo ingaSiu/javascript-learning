@@ -426,10 +426,16 @@ eventsContainer.addEventListener('click', (e) => {
 function convertTime(time) {
   //convert time to 24 hour format
   let timeArr = time.split(':');
-  let timeHour = timeArr[0];
+  let timeHour = parseInt(timeArr[0]);
   let timeMin = timeArr[1];
   let timeFormat = timeHour >= 12 ? 'PM' : 'AM';
-  timeHour = timeHour % 12 || 12;
+
+  if (timeHour === 0) {
+    timeHour = 12;
+  } else {
+    timeHour = timeHour % 12 || 12;
+  }
+
   time = timeHour + ':' + timeMin + ' ' + timeFormat;
   return time;
 }
