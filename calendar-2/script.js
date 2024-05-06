@@ -37,23 +37,27 @@ const months = [
   'December',
 ];
 
-const eventsArr = [
-  {
-    day: 13,
-    month: 0o5,
-    year: 2024,
-    events: [
-      {
-        title: 'Event 1 lorem ipsun dolar sit genfa tersd dsad ',
-        time: '10:00 AM',
-      },
-      {
-        title: 'Event 2',
-        time: '11:00 AM',
-      },
-    ],
-  },
-];
+// const eventsArr = [
+//   {
+//     day: 13,
+//     month: 0o5,
+//     year: 2024,
+//     events: [
+//       {
+//         title: 'Event 1 lorem ipsun dolar sit genfa tersd dsad ',
+//         time: '10:00 AM',
+//       },
+//       {
+//         title: 'Event 2',
+//         time: '11:00 AM',
+//       },
+//     ],
+//   },
+// ];
+
+let eventsArr = [];
+
+getEvents();
 
 function initCalendar() {
   const firstDay = new Date(year, month, 1);
@@ -307,6 +311,7 @@ function updateEvents(date) {
     `;
   }
   eventsContainer.innerHTML = events;
+  saveEvents();
 }
 
 //function to add event to eventsArr
